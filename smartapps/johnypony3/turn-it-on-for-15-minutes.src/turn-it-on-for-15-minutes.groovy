@@ -27,7 +27,7 @@ definition(
 
 preferences {
   section("Which switch?") {
-    input "timed_Switch", "capability.switch, capability.bulb, capability.light", title: "Switch",  multiple: false, required: true
+    input "timed_Switch", "capability.switch", title: "Switch",  multiple: false, required: true
   }
   section("How many minutes?") {
     input "minutes", "number", required: true, title: "How many minutes?", defaultValue: 15

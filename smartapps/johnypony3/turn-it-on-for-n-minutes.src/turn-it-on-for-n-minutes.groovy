@@ -71,30 +71,22 @@ def on_Handler(evt) {
     device = evt.device
     device.on()
   	def delay = 5//30 * settings.minutes
-  	//runIn (delay, device_off, [data: [deviceId: deviceId]])
-    runIn(delay, device_off, [data: [deviceId: deviceId]])
+    runIn(delay, device_off, [overwrite: false], [data: [deviceId: deviceId]])
 }
 
 def off_Handler(evt) {
     String deviceId = evt.deviceId
     log.debug "[off_Handler] The device id for this event: ${deviceId}"
-    /*
-    device = evt.device
-    device.off()
-    runIn (delay, device.off(), [overwrite: false])
-    */
 }
 
 def device_off(data) {
     String deviceId = data.deviceId
     log.debug "[off_Handler] The device id for this event: ${deviceId}"
 
-    def devices = settings.inputDevices
+    def devices = settings.switches
 
-    devices.findAll( { it.id == deviceId} ).each {
-      if (it){
+    settings.switches.findAll({it.id == deviceId}).each {
         log.debug "Found device: ID: ${it.id}, Label: ${it.label}, Name: ${it.name}"
         it.off()
-      }
     }
 }
