@@ -53,7 +53,7 @@ def updated(settings) {
 }
 
 def timed_Switch_On_Handler(evt) {
-	timed_Switch.on()
+	//timed_Switch.on()
 	def delay = 60 * settings.minutes
 	runIn(delay, timed_Switch_Off_Handler)
 }
