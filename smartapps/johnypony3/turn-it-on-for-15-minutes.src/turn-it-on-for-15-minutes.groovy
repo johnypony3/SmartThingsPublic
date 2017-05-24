@@ -19,7 +19,7 @@ definition(
   name: "Turn It On For 15 Minutes",
   namespace: "johnypony3",
   author: "johnypony3",
-  description: "When a switch is turned on, it is then turned off after 15 minutes.",
+  description: "When a switch is turned on, it will be turned off after a set amount of minutes.",
   category: "Green Living",
   iconUrl: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet.png",
   iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet@2x.png"
@@ -27,10 +27,10 @@ definition(
 
 preferences {
   section("Which switch?") {
-    input "timed_Switch", "capability.switch", title: "Switch",  multiple: false, required: true
+    input "timed_Switch", "capability.switch", title: "Switch to turn off after a set amount of minutes",  multiple: false, required: true
   }
   section("How many minutes?") {
-    input "minutes", "number", required: true, title: "How many minutes?", defaultValue: 15
+    input "minutes", "number", required: true, title: "How many minutes should the switch be on? (default: 15)", defaultValue: 15
   }
   section("Misc"){
     icon(title: "Pick an icon", required: true)
@@ -53,7 +53,6 @@ def updated(settings) {
 }
 
 def timed_Switch_On_Handler(evt) {
-	//timed_Switch.on()
 	def delay = 60 * settings.minutes
 	runIn(delay, timed_Switch_Off_Handler)
 }
