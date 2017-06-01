@@ -1,5 +1,5 @@
 metadata {
-        definition (name: "Virtual Dimmer", namespace: "johnypony3", author: "johnypony3") {
+        definition (name: "Simulated Dimmer", namespace: "johnypony3", author: "johnypony3") {
         capability "Switch"
         capability "Refresh"
         capability "Switch Level"
