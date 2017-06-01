@@ -1,5 +1,5 @@
 /**
- *  Copyright 2015 johnypony3
+ *  Copyright 2017 johnypony3
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -20,16 +20,16 @@ definition(
     namespace: "johnypony3",
     author: "johnypony3",
     description: "Mirrors another devices state",
-    category: "Safety & Security",
+    category: "Green Living",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet@2x.png"
 )
 
 preferences {
-    section("Which device?") {
+    section("Which switch?") {
 		    input "switch1", "capability.switch"
     }
-    section("Which other device?") {
+    section("Which other switch?") {
         input "switch2", "capability.switch"
     }
 }
