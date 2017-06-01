@@ -46,7 +46,19 @@ def updated(settings) {
 def initialize(){
         subscribe(dimmers, "level", switchLevelHandler)
         subscribe(dimmers, "switch", switchLevelHandler)
-        subscribe(switches, "switch", switchLevelHandler)
+        subscribe(switches, "switch", switchHandler)
+}
+
+def switchHandler(evt) {
+        log.debug "device: ${evt.device} value: ${evt.value}"
+
+        if (evt.value == "on") {
+                switches.on()
+        }
+
+        if (evt.value == "off") {
+                switches.off()
+        }
 }
 
 def switchLevelHandler(evt) {
