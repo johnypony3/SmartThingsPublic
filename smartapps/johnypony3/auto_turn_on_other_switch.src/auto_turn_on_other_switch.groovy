@@ -1,5 +1,5 @@
 /**
- *  Copyright 2015 SmartThings
+ *  Copyright 2015 johnypony3
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -13,12 +13,12 @@
  *  Turn It On For 5 Minutes
  *  Turn on a switch when a contact sensor opens and then turn it back off 5 minutes later.
  *
- *  Author: SmartThings
+ *  Author: johnypony3
  */
 definition(
     name: "Bind to Another Device",
-    namespace: "smartthings",
-    author: "SmartThings",
+    namespace: "johnypony3",
+    author: "johnypony3",
     description: "Mirrors another devices state",
     category: "Safety & Security",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet.png",
@@ -50,6 +50,15 @@ def initialize(){
   subscribe(switch2, "switch.on", switchOnHandler)
   subscribe(switch1, "switch.off", switchOffHandler)
   subscribe(switch2, "switch.off", switchOffHandler)
+
+  def mySwitchCaps = switch1.capabilities
+
+  mySwitchCaps.each {cap ->
+      log.debug "Capability name: ${cap.name}"
+      cap.attributes.each {attr ->
+          log.debug "-- Attribute name; ${attr.name}"
+      }
+  }
 }
 
 def switchOnHandler(evt) {
