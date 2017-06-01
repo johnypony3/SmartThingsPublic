@@ -49,6 +49,7 @@ def updated(settings) {
 
 def initialize(){
         subscribe(dimmers, "level", switchLevelHandler)
+        subscribe(dimmers, "switch", switchLevelHandler)
         //subscribe(switch1, "level", switchLevelHandler)
         //subscribe(switch2, "level", switchLevelHandler)
         //subscribe(switch1, "switch", switchLevelHandler)
