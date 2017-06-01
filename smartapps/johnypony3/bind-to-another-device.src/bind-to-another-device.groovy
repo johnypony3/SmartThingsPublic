@@ -74,9 +74,7 @@ def switchHandler(evt) {
     ? switch1.on() : switch1.off()
    }
  */
-        def data = parseJson(evt.data)
-
-       log.debug "event data: ${data}"
+       log.debug "event: ${evt}"
        log.debug "event: ${evt.description} device: ${evt.device} value: ${evt.value}"
        //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
 
