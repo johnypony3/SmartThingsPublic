@@ -46,8 +46,8 @@ def updated(settings) {
 def initialize(){
         subscribe(switch1, "level", switchHandler)
         subscribe(switch2, "level", switchHandler)
-        subscribe(switch1, "switch", switchHandler)
-        subscribe(switch2, "switch", switchHandler)
+        //subscribe(switch1, "switch", switchHandler)
+        //subscribe(switch2, "switch", switchHandler)
 
 /*
    //are the switches dimmable? if so, lets bind that also
@@ -74,10 +74,9 @@ def switchHandler(evt) {
     ? switch1.on() : switch1.off()
    }
  */
-       log.debug "event: ${evt}"
-       log.debug "event: ${evt.description} device: ${evt.device} value: ${evt.value}"
+       log.debug "device: ${evt.device} value: ${evt.value}"
        //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
-
+/*
        if (evt.value == "on") {
                 switch1.on()
                 switch2.on()
@@ -87,6 +86,9 @@ def switchHandler(evt) {
                 switch1.off()
                 switch2.off()
         }
+        */
+        switch1.setLevel(evt.value)
+        switch2.setLevel(evt.value)
 }
 
 def switchLevelHandler(evt) {
