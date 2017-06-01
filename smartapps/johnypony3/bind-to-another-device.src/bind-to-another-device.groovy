@@ -74,7 +74,7 @@ def switchHandler(evt) {
     ? switch1.on() : switch1.off()
    }
  */
-        log.debug "event: ${evt.displayName} device: ${evt.device} value: ${evt.value}"
+        log.debug "event: ${evt.description} device: ${evt.device} value: ${evt.value}"
         //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
 
         if (evt.value == "on") {
