@@ -52,6 +52,10 @@ def initialize(){
 def switchHandler(evt) {
         log.debug "device: ${evt.device} value: ${evt.value}"
 
+        if (!switches) {
+                return
+        }
+
         if (evt.value == "on") {
                 switches.on()
         }
@@ -64,14 +68,16 @@ def switchHandler(evt) {
 def switchLevelHandler(evt) {
         log.debug "device: ${evt.device} value: ${evt.value}"
 
+        if (!dimmers) {
+                return
+        }
+
         if (evt.value == "on") {
                 dimmers.on()
-                switches.on()
         }
 
         if (evt.value == "off") {
                 dimmers.off()
-                switches.off()
         }
 
         if (evt.value.isNumber()) {
