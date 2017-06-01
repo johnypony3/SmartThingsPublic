@@ -74,10 +74,10 @@ def switchHandler(evt) {
     ? switch1.on() : switch1.off()
    }
  */
-       log.debug "device: ${evt.device} value: ${evt.value}"
-       //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
-/*
-       if (evt.value == "on") {
+        log.debug "device: ${evt.device} value: ${evt.value}"
+        //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
+
+        if (evt.value == "on") {
                 switch1.on()
                 switch2.on()
         }
@@ -86,9 +86,11 @@ def switchHandler(evt) {
                 switch1.off()
                 switch2.off()
         }
-        */
-        switch1.setLevel(evt.value)
-        switch2.setLevel(evt.value)
+        
+        if (evt.value.isNumber()) {
+                switch1.setLevel(evt.value)
+                switch2.setLevel(evt.value)
+        }
 }
 
 def switchLevelHandler(evt) {
