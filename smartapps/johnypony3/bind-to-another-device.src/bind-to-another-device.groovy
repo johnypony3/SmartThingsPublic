@@ -25,6 +25,8 @@ definition(
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet@2x.png"
 )
 
+final SWITCH_LEVEL = "Switch Level"
+
 preferences {
     section("Which switch?") {
 		    input "switch1", "capability.switch"
@@ -35,29 +37,32 @@ preferences {
 }
 
 def installed() {
-	log.debug "Installed with settings: ${settings}"
+  log.debug "Installed with settings: ${settings}"
   initialize()
 }
 
 def updated(settings) {
-	log.debug "Updated with settings: ${settings}"
-	unsubscribe()
+  log.debug "Updated with settings: ${settings}"
+  unsubscribe()
   initialize()
 }
 
 def initialize(){
   subscribe(switch1, "switch.on", switchOnHandler)
   subscribe(switch2, "switch.on", switchOnHandler)
+
   subscribe(switch1, "switch.off", switchOffHandler)
   subscribe(switch2, "switch.off", switchOffHandler)
 
-  def mySwitchCaps = switch1.capabilities
+  //are the switches dimmable? if so, lets bind that also
+  Boolean switch1_Level_Capable = switch1.capabilities.name.contains(SWITCH_LEVEL)
+  Boolean switch2_Level_Capable = switch2.capabilities.name.contains(SWITCH_LEVEL)
 
-  mySwitchCaps.each {cap ->
-      log.debug "Capability name: ${cap.name}"
-      cap.attributes.each {attr ->
-          log.debug "-- Attribute name; ${attr.name}"
-      }
+  if (switch1_Level_Capable && switch2_Level_Capable){
+    subscribe(switch1, "switch.level", switchLevelHandler)
+    subscribe(switch2, "switch.level", switchLevelHandler)
+  } else {
+  	log.debug "incapable"
   }
 }
 
@@ -77,4 +82,9 @@ def switchOffHandler(evt) {
   if (switch2.currentValue("switch") != "off"){
     switch2.off()
   }
+}
+
+def switchLevelHandler(evt) {
+  //switch2.setLevel("switch")
+  log.debug "current switch value: ${device.currentValue('switch')}"
 }
