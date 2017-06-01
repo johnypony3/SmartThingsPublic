@@ -16,53 +16,53 @@
  *  Author: johnypony3
  */
 definition(
-    name: "Bind to Another Device",
-    namespace: "johnypony3",
-    author: "johnypony3",
-    description: "Mirrors another devices state",
-    category: "Green Living",
-    iconUrl: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet.png",
-    iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet@2x.png"
-)
-
-final SWITCH_LEVEL = "Switch Level"
+        name: "Bind to Another Device",
+        namespace: "johnypony3",
+        author: "johnypony3",
+        description: "Mirrors another devices state",
+        category: "Green Living",
+        iconUrl: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet.png",
+        iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Meta/light_contact-outlet@2x.png"
+        )
 
 preferences {
-    section("Which switch?") {
-		    input "switch1", "capability.switch"
-    }
-    section("Which other switch?") {
-        input "switch2", "capability.switch"
-    }
+        section("Which dimmer?") {
+                input "switch1", "capability.switchLevel"
+        }
+        section("Which other dimmer?") {
+                input "switch2", "capability.switchLevel"
+        }
 }
 
 def installed() {
-  initialize()
+        initialize()
 }
 
 def updated(settings) {
-  unsubscribe()
-  initialize()
+        unsubscribe()
+        initialize()
 }
 
 def initialize(){
-	subscribe(switch1, "switch", switchHandler)
-    subscribe(switch2, "switch", switchHandler)
+        subscribe(switch1, "level", switchHandler)
+        subscribe(switch2, "level", switchHandler)
+        subscribe(switch1, "switch", switchHandler)
+        subscribe(switch2, "switch", switchHandler)
 
 /*
-  //are the switches dimmable? if so, lets bind that also
-  Boolean switch1_Level_Capable = switch1.capabilities.name.contains("Switch Level")
-  Boolean switch2_Level_Capable = switch2.capabilities.name.contains("Switch Level")
+   //are the switches dimmable? if so, lets bind that also
+   Boolean switch1_Level_Capable = switch1.capabilities.name.contains("Switch Level")
+   Boolean switch2_Level_Capable = switch2.capabilities.name.contains("Switch Level")
 
-  if (switch1_Level_Capable && switch2_Level_Capable){
-  	log.debug "capable"
+   if (switch1_Level_Capable && switch2_Level_Capable){
+    log.debug "capable"
 
     subscribe(switch1, "switch.level", switchLevelHandler)
     subscribe(switch2, "switch.level", switchLevelHandler)
-  } else {
-  	log.debug "incapable"
-  }
-  */
+   } else {
+    log.debug "incapable"
+   }
+ */
 }
 
 
@@ -70,32 +70,25 @@ def initialize(){
 def switchHandler(evt) {
 /*
 
-  if (switch1.currentValue("switch") != evt.value) {
-  	? switch1.on() : switch1.off()
-  }
-    */
-log.debug "The value of this event is ${evt.value}"
-log.debug "The device of this event is ${evt.device}"
-log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
+   if (switch1.currentValue("switch") != evt.value) {
+    ? switch1.on() : switch1.off()
+   }
+ */
+        log.debug "event: ${evt.displayName} device: ${evt.device} value: ${evt.value}"
+        //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
 
-if (evt.value == "on") {
-          if (switch1.currentValue("switch") != "on"){
-            switch1.on()
-          }
-          if (switch2.currentValue("switch") != "on"){
-            switch2.on()
-          }
-    } else if (evt.value == "off") {
-          if (switch1.currentValue("switch") != "off"){
-            switch1.off()
-          }
-          if (switch2.currentValue("switch") != "off"){
-            switch2.off()
-          }
-    }
+        if (evt.value == "on") {
+                switch1.on()
+                switch2.on()
+        }
+
+        if (evt.value == "off") {
+                switch1.off()
+                switch2.off()
+        }
 }
 
 def switchLevelHandler(evt) {
-  //switch2.setLevel("switch")
-  log.debug "current switch value: ${device.currentValue('switch')}"
+        //switch2.setLevel("switch")
+        log.debug "current switch value: ${device.currentValue('switch')}"
 }
