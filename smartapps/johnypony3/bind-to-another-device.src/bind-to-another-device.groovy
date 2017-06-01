@@ -26,11 +26,15 @@ definition(
         )
 
 preferences {
-        section("Which dimmer?") {
+        /*
+           section("Which dimmer?") {
                 input "switch1", "capability.switchLevel"
-        }
-        section("Which other dimmer?") {
+           }
+           section("Which other dimmer?") {
                 input "switch2", "capability.switchLevel"
+           }*/
+        section("Which dimmers?") {
+                input "dimmers", "capability.switchLevel", title:"dimmers?", multiple: true, required: false
         }
 }
 
@@ -44,10 +48,11 @@ def updated(settings) {
 }
 
 def initialize(){
-        subscribe(switch1, "level", switchHandler)
-        subscribe(switch2, "level", switchHandler)
-        //subscribe(switch1, "switch", switchHandler)
-        //subscribe(switch2, "switch", switchHandler)
+        subscribe(dimmers, "level", switchLevelHandler)
+        //subscribe(switch1, "level", switchLevelHandler)
+        //subscribe(switch2, "level", switchLevelHandler)
+        //subscribe(switch1, "switch", switchLevelHandler)
+        //subscribe(switch2, "switch", switchLevelHandler)
 
 /*
    //are the switches dimmable? if so, lets bind that also
@@ -67,7 +72,7 @@ def initialize(){
 
 
 
-def switchHandler(evt) {
+def switchLevelHandler(evt) {
 /*
 
    if (switch1.currentValue("switch") != evt.value) {
@@ -78,22 +83,14 @@ def switchHandler(evt) {
         //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
 
         if (evt.value == "on") {
-                switch1.on()
-                switch2.on()
+                dimmers.on()
         }
 
         if (evt.value == "off") {
-                switch1.off()
-                switch2.off()
+                dimmers.off()
         }
-        
-        if (evt.value.isNumber()) {
-                switch1.setLevel(evt.value)
-                switch2.setLevel(evt.value)
-        }
-}
 
-def switchLevelHandler(evt) {
-        //switch2.setLevel("switch")
-        log.debug "current switch value: ${device.currentValue('switch')}"
+        if (evt.value.isNumber()) {
+                dimmers.setLevel(evt.value)
+        }
 }
