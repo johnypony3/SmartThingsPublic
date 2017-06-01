@@ -26,15 +26,11 @@ definition(
         )
 
 preferences {
-        /*
-           section("Which dimmer?") {
-                input "switch1", "capability.switchLevel"
-           }
-           section("Which other dimmer?") {
-                input "switch2", "capability.switchLevel"
-           }*/
         section("Which dimmers?") {
                 input "dimmers", "capability.switchLevel", title:"dimmers?", multiple: true, required: false
+        }
+        section("Which switches?") {
+                input "switches", "capability.switch", title:"switches?", multiple: true, required: false
         }
 }
 
@@ -50,45 +46,20 @@ def updated(settings) {
 def initialize(){
         subscribe(dimmers, "level", switchLevelHandler)
         subscribe(dimmers, "switch", switchLevelHandler)
-        //subscribe(switch1, "level", switchLevelHandler)
-        //subscribe(switch2, "level", switchLevelHandler)
-        //subscribe(switch1, "switch", switchLevelHandler)
-        //subscribe(switch2, "switch", switchLevelHandler)
-
-/*
-   //are the switches dimmable? if so, lets bind that also
-   Boolean switch1_Level_Capable = switch1.capabilities.name.contains("Switch Level")
-   Boolean switch2_Level_Capable = switch2.capabilities.name.contains("Switch Level")
-
-   if (switch1_Level_Capable && switch2_Level_Capable){
-    log.debug "capable"
-
-    subscribe(switch1, "switch.level", switchLevelHandler)
-    subscribe(switch2, "switch.level", switchLevelHandler)
-   } else {
-    log.debug "incapable"
-   }
- */
+        subscribe(switches, "switch", switchLevelHandler)
 }
 
-
-
 def switchLevelHandler(evt) {
-/*
-
-   if (switch1.currentValue("switch") != evt.value) {
-    ? switch1.on() : switch1.off()
-   }
- */
         log.debug "device: ${evt.device} value: ${evt.value}"
-        //log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
 
         if (evt.value == "on") {
                 dimmers.on()
+                switches.on()
         }
 
         if (evt.value == "off") {
                 dimmers.off()
+                switches.off()
         }
 
         if (evt.value.isNumber()) {
