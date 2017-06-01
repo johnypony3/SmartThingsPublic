@@ -37,51 +37,62 @@ preferences {
 }
 
 def installed() {
-  log.debug "Installed with settings: ${settings}"
   initialize()
 }
 
 def updated(settings) {
-  log.debug "Updated with settings: ${settings}"
   unsubscribe()
   initialize()
 }
 
 def initialize(){
-  subscribe(switch1, "switch.on", switchOnHandler)
-  subscribe(switch2, "switch.on", switchOnHandler)
+	subscribe(switch1, "switch", switchHandler)
+    subscribe(switch2, "switch", switchHandler)
 
-  subscribe(switch1, "switch.off", switchOffHandler)
-  subscribe(switch2, "switch.off", switchOffHandler)
-
+/*
   //are the switches dimmable? if so, lets bind that also
-  Boolean switch1_Level_Capable = switch1.capabilities.name.contains(SWITCH_LEVEL)
-  Boolean switch2_Level_Capable = switch2.capabilities.name.contains(SWITCH_LEVEL)
+  Boolean switch1_Level_Capable = switch1.capabilities.name.contains("Switch Level")
+  Boolean switch2_Level_Capable = switch2.capabilities.name.contains("Switch Level")
 
   if (switch1_Level_Capable && switch2_Level_Capable){
+  	log.debug "capable"
+
     subscribe(switch1, "switch.level", switchLevelHandler)
     subscribe(switch2, "switch.level", switchLevelHandler)
   } else {
   	log.debug "incapable"
   }
+  */
 }
 
-def switchOnHandler(evt) {
-  if (switch1.currentValue("switch") != "on"){
-    switch1.on()
-  }
-  if (switch2.currentValue("switch") != "on"){
-    switch2.on()
-  }
-}
 
-def switchOffHandler(evt) {
-  if (switch1.currentValue("switch") != "off"){
-    switch1.off()
+
+def switchHandler(evt) {
+/*
+
+  if (switch1.currentValue("switch") != evt.value) {
+  	? switch1.on() : switch1.off()
   }
-  if (switch2.currentValue("switch") != "off"){
-    switch2.off()
-  }
+    */
+log.debug "The value of this event is ${evt.value}"
+log.debug "The device of this event is ${evt.device}"
+log.debug "The value of this event is different from its previous value: ${evt.isStateChange()}"
+
+if (evt.value == "on") {
+          if (switch1.currentValue("switch") != "on"){
+            switch1.on()
+          }
+          if (switch2.currentValue("switch") != "on"){
+            switch2.on()
+          }
+    } else if (evt.value == "off") {
+          if (switch1.currentValue("switch") != "off"){
+            switch1.off()
+          }
+          if (switch2.currentValue("switch") != "off"){
+            switch2.off()
+          }
+    }
 }
 
 def switchLevelHandler(evt) {
