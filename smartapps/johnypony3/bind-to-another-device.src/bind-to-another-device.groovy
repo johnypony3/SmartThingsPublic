@@ -26,10 +26,12 @@ definition(
         )
 
 preferences {
-        section("Which dimmers?") {
-                input "dimmers", "capability.switchLevel", title:"dimmers?", multiple: true, required: false
+        section("Dimmers") {
+          paragraph "For dimmers a leader dimmer needs to be set, without this, you get an interesting light show."
+          input "dimmer_Leader", "capability.switchLevel", title:"leader?", multiple: true, required: false
+          input "dimmers", "capability.switchLevel", title:"dimmers?", multiple: true, required: false
         }
-        section("Which switches?") {
+        section("Switches") {
                 input "switches", "capability.switch", title:"switches?", multiple: true, required: false
         }
 }
@@ -44,8 +46,8 @@ def updated(settings) {
 }
 
 def initialize(){
-        subscribe(dimmers, "level", switchLevelHandler)
-        subscribe(dimmers, "switch", switchLevelHandler)
+        subscribe(dimmer_Leader, "level", switchLevelHandler)
+        subscribe(dimmer_Leader, "switch", switchLevelHandler)
         subscribe(switches, "switch", switchHandler)
 }
 
