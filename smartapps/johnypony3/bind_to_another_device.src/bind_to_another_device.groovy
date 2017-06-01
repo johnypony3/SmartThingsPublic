@@ -10,8 +10,8 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- *  Turn It On For 5 Minutes
- *  Turn on a switch when a contact sensor opens and then turn it back off 5 minutes later.
+ *  Bind to Another Device
+ *  Mirrors another devices state.
  *
  *  Author: johnypony3
  */
